@@ -91,9 +91,9 @@ public class Rectangle extends Shape {
 	
 	public boolean equals(Object obj) {
 		if (obj instanceof Rectangle) {
-			Rectangle pomocna = (Rectangle) obj;
-			if (this.upperLeftPoint.equals(pomocna.upperLeftPoint) && this.width == pomocna.width
-					&& this.height == pomocna.height)
+			Rectangle other = (Rectangle) obj;
+			if (this.upperLeftPoint.equals(other.upperLeftPoint) && this.width == other.width
+					&& this.height == other.height)
 				return true;
 			else
 				return false;
@@ -109,11 +109,11 @@ public class Rectangle extends Shape {
 
 	
 	
-	public boolean contains(Point tackaKlika) {
-		return (tackaKlika.getX() >= this.upperLeftPoint.getX()
-				&& tackaKlika.getX() <= this.upperLeftPoint.getX() + width
-				&& tackaKlika.getY() >= this.upperLeftPoint.getY()
-				&& tackaKlika.getY() <= this.upperLeftPoint.getY() + height);
+	public boolean contains(Point clickPoint) {
+		return (clickPoint.getX() >= this.upperLeftPoint.getX()
+				&& clickPoint.getX() <= this.upperLeftPoint.getX() + width
+				&& clickPoint.getY() >= this.upperLeftPoint.getY()
+				&& clickPoint.getY() <= this.upperLeftPoint.getY() + height);
 	}
 
 	

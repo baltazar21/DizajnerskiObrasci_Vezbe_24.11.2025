@@ -2,21 +2,21 @@ package geometry;
 public class Test {
 	public static void main(String[] args) {
 		// kreiramo objekat klase Point
-		Point prvaTacka = new Point();
+		Point firstPoint = new Point();
 		//x koordinata prve tacke
 		//System.out.println(x); --ne valja
 		//System.out.println(Point.x);--ne valja
 		//System.out.println(prvaTacka.x);--ne valja
-		System.out.println(prvaTacka.getX());
-		prvaTacka.setX(150);
-		System.out.println(prvaTacka.getX());
+		System.out.println(firstPoint.getX());
+		firstPoint.setX(150);
+		System.out.println(firstPoint.getX());
 		
-		Point drugaTacka = new Point();
-		System.out.println(drugaTacka.getY());
-		drugaTacka.setY(150);
-		System.out.println(drugaTacka.getY());
+		Point secondPoint = new Point();
+		System.out.println(secondPoint.getY());
+		secondPoint.setY(150);
+		System.out.println(secondPoint.getY());
 		
-		prvaTacka.distance(drugaTacka);
+		firstPoint.distance(secondPoint);
 		
 		//Zadaci
 		
@@ -79,35 +79,35 @@ public class Test {
 		rect1.setUpperLeftPoint(point2);
 		rect1.getUpperLeftPoint().setX(10);
 
-		Point novaTacka = new Point(10,15, true);
-		System.out.println(novaTacka.getX());
+		Point newPoint = new Point(10,15, true);
+		System.out.println(newPoint.getX());
 
-		System.out.println(novaTacka);
+		System.out.println(newPoint);
 		//u pozadini se poziva ovako
-		System.out.println(novaTacka.toString());
+		System.out.println(newPoint.toString());
 
 		//System.out.println(line1);
 
 		int a = 5;
 		int b = 5;
 		System.out.println(a==b);
-		Point novaTacka2 = new Point(10,15, true);
+		Point newPoint2 = new Point(10,15, true);
 		//kod slozenih tipova operator == poredi reference
-		System.out.println(novaTacka==novaTacka2);
+		System.out.println(newPoint==newPoint2);
 		//metoda equals poredi objekte po vrednosti
 		//kada se redefinise
-		System.out.println(novaTacka.equals(novaTacka2));	
+		System.out.println(newPoint.equals(newPoint2));	
 		//System.out.println(novaTacka.equals(line1));	
 
 
 		//Pete vezbe
-		Donut donut1 = new Donut(novaTacka, 50, 45);
+		Donut donut1 = new Donut(newPoint, 50, 45);
 		System.out.println(donut1.getInnerRadius());
 		System.out.println(donut1.getRadius());
 		System.out.println(donut1.selected);
 		System.out.println(donut1);
 
-		Circle donut2 = new Donut(novaTacka, 50, 45);
+		Circle donut2 = new Donut(newPoint, 50, 45);
 		System.out.println(donut2.getRadius());
 		System.out.println(((Donut)donut2).getInnerRadius());
 

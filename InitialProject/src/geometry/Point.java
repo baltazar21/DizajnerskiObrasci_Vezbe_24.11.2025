@@ -57,11 +57,11 @@ public class Point extends Shape{
 	
 	
 	//metoda instance
-	public double distance(Point drugaTacka) {
+	public double distance(Point otherPoint) {
 		//x koordinata prve tacke tj one nad kojom se poziva metoda distance
 				//-x koordinata druge tacke koja se prosledjuje metodi distance
-				int a = this.x - drugaTacka.x;
-				int b = this.y-drugaTacka.y;
+				int a = this.x - otherPoint.x;
+				int b = this.y-otherPoint.y;
 				double distance = Math.sqrt(a*a+b*b);
 				return distance;
 				}
@@ -111,8 +111,8 @@ public class Point extends Shape{
 	@Override
 	public boolean contains(int x, int y) {
 		// TODO Auto-generated method stub
-		Point sadrziTacku = new Point(x, y);
-		return this.distance(sadrziTacku) <= 2;
+		Point containsPoint = new Point(x, y);
+		return this.distance(containsPoint) <= 2;
 		
 	}
 

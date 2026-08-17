@@ -95,8 +95,8 @@ public class Circle extends Shape {
 	
 	public boolean equals(Object obj) {
 		if (obj instanceof Circle) {
-			Circle pomocna = (Circle) obj;
-			if (this.center.equals(pomocna.center) && this.radius == pomocna.radius)
+			Circle other = (Circle) obj;
+			if (this.center.equals(other.center) && this.radius == other.radius)
 				return true;
 			else
 				return false;
@@ -105,12 +105,12 @@ public class Circle extends Shape {
 	}
 	
 	public boolean contains(int x, int y) {
-		Point sadrziTacku = new Point(x, y);
-		return (this.center.distance(sadrziTacku) <= this.radius);
+		Point containsPoint = new Point(x, y);
+		return (this.center.distance(containsPoint) <= this.radius);
 	}
 
-	public boolean contains(Point tackaKlika) {
-		return (this.center.distance(tackaKlika) <= this.radius);
+	public boolean contains(Point clickPoint) {
+		return (this.center.distance(clickPoint) <= this.radius);
 	}
 
 	public Point getCenter() {

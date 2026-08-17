@@ -62,13 +62,13 @@ public class Line extends Shape{
 	}
 	
 	public boolean contains(int x,int y) {
-		Point sadrziTacku = new Point(x,y);
-		return this.startPoint.distance(sadrziTacku)+this.endPoint.distance(sadrziTacku)-length()<=2;
+		Point containsPoint = new Point(x,y);
+		return this.startPoint.distance(containsPoint)+this.endPoint.distance(containsPoint)-length()<=2;
 	}
 	public boolean equals(Object obj) {
 		if(obj instanceof Line) {
-			Line pomocna = (Line) obj;
-			if(this.startPoint.equals(pomocna.startPoint) && this.endPoint.equals(pomocna.endPoint) && this.selected==pomocna.selected)
+			Line other = (Line) obj;
+			if(this.startPoint.equals(other.startPoint) && this.endPoint.equals(other.endPoint) && this.selected==other.selected)
 				return true;
 			else
 				return false;

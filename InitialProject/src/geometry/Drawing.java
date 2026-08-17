@@ -30,24 +30,24 @@ public class Drawing extends JPanel {
 		pt1.Draw(g);
 		
 		Rectangle rect = new Rectangle();
-		Point rectStart = new Point(200,200);
-		rect.setUpperLeftPoint(rectStart);
+		Point rectangleStart = new Point(200,200);
+		rect.setUpperLeftPoint(rectangleStart);
 		rect.setHeight(50);
 		rect.setWidth(100);
 		rect.setColor(Color.red);
 		rect.setInnerColor(Color.red);
 		rect.Draw(g);
 		
-		Circle crcl = new Circle();
-		Point crclCenter = new Point(500,500);
-		crcl.setCenter(rectStart);
-		crcl.setRadius(30);
-		crcl.setColor(Color.red);
-		crcl.Draw(g);
+		Circle circle = new Circle();
+		Point circleCenter = new Point(500,500);
+		circle.setCenter(rectangleStart);
+		circle.setRadius(30);
+		circle.setColor(Color.red);
+		circle.Draw(g);
 		
 		Donut don = new Donut();
-		Point donCenter = new Point(700,700);
-		don.setCenter(crclCenter);
+		Point donutCenter = new Point(700,700);
+		don.setCenter(circleCenter);
 		don.setInnerRadius(100);
 		don.setRadius(200);
 		don.setColor(Color.blue);
