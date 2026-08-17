@@ -2,6 +2,9 @@ package geometry;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 
 public class Donut extends Circle {
 
@@ -43,30 +46,44 @@ public class Donut extends Circle {
 
     @Override
     public void Draw(Graphics g) {
-        super.Draw(g);
-        g.drawOval(getCenter().getX() - innerRadius, getCenter().getY() - innerRadius, innerRadius * 2, innerRadius * 2);
+        Graphics2D g2 = (Graphics2D) g;
+
+        fill(g2);
+
+        g2.setColor(getColor());
+        g2.drawOval(getCenter().getX() - getRadius(), getCenter().getY() - getRadius(), getRadius() * 2, getRadius() * 2);
+        g2.drawOval(getCenter().getX() - innerRadius, getCenter().getY() - innerRadius, innerRadius * 2, innerRadius * 2);
 
         if (isSelected()) {
-            g.setColor(Color.BLUE);
-            g.drawRect(getCenter().getX() - 2, getCenter().getY() - 2, 4, 4);
-            g.drawRect(getCenter().getX() - innerRadius - 2, getCenter().getY() - 2, 4, 4);
-            g.drawRect(getCenter().getX() + innerRadius - 2, getCenter().getY() - 2, 4, 4);
-            g.drawRect(getCenter().getX() - 2, getCenter().getY() - innerRadius - 2, 4, 4);
-            g.drawRect(getCenter().getX() - 2, getCenter().getY() + innerRadius - 2, 4, 4);
-            g.setColor(Color.BLACK);
+            g2.setColor(Color.BLUE);
+            g2.drawRect(getCenter().getX() - 2, getCenter().getY() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() - getRadius() - 2, getCenter().getY() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() + getRadius() - 2, getCenter().getY() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() - 2, getCenter().getY() - getRadius() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() - 2, getCenter().getY() + getRadius() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() - innerRadius - 2, getCenter().getY() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() + innerRadius - 2, getCenter().getY() - 2, 4, 4);
+            g2.drawRect(getCenter().getX() - 2, getCenter().getY() - innerRadius - 2, 4, 4);
+            g2.drawRect(getCenter().getX() - 2, getCenter().getY() + innerRadius - 2, 4, 4);
+            g2.setColor(Color.BLACK);
         }
-
-        fill(g);
     }
 
+    @Override
     public void fill(Graphics g) {
-        g.setColor(getInnerColor());
-        g.fillOval(getCenter().getX() - getRadius(), getCenter().getY() - getRadius(), getRadius() * 2, getRadius() * 2);
+        Graphics2D g2 = (Graphics2D) g;
 
-        g.setColor(Color.WHITE);
-        g.fillOval(getCenter().getX() - innerRadius, getCenter().getY() - innerRadius, innerRadius * 2, innerRadius * 2);
+        Area outer = new Area(new Ellipse2D.Double(
+                getCenter().getX() - getRadius(), getCenter().getY() - getRadius(),
+                getRadius() * 2, getRadius() * 2));
+        Area inner = new Area(new Ellipse2D.Double(
+                getCenter().getX() - innerRadius, getCenter().getY() - innerRadius,
+                innerRadius * 2, innerRadius * 2));
+        outer.subtract(inner);
 
-        g.setColor(getColor());
+        g2.setColor(getInnerColor());
+        g2.fill(outer);
+        g2.setColor(getColor());
     }
 
     public double area() {
