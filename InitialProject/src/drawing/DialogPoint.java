@@ -165,6 +165,7 @@ public class DialogPoint extends JDialog {
 			textField.setText(Integer.toString(x));
 			int y = point.getY();
 			textField_1.setText(Integer.toString(y));
+			color = point.getColor();
 			btnNewButton.setBackground(point.getColor());
 			}
 		

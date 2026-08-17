@@ -5,7 +5,6 @@ public class Rectangle extends Shape {
 	private Point upperLeftPoint;
 	private int width;
 	private int height;
-	private boolean selected;
 	
 	//------------------------- Konstruktori ------------------------
 	public Rectangle() {

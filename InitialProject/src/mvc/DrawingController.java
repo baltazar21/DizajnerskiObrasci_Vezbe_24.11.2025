@@ -37,13 +37,13 @@ public class DrawingController {
 
 	public void shapeHandler(MouseEvent e) {
 
-		if(currentMode == "select")
+		if("select".equals(currentMode))
 		{
 			selectShape(e.getX(),e.getY());
 			return;
 		}		
 		
-		if(currentMode == "draw") {
+		if("draw".equals(currentMode)) {
 			Shape newShape = null;
 			switch (selectedShapeType.toLowerCase()) {
 
@@ -85,7 +85,7 @@ public class DrawingController {
 			case "rectangle":
 				DialogRectangle dlgr = new DialogRectangle(frame,null); 
 				dlgr.setModal(true); 
-				dlgr.show(); 
+				dlgr.setVisible(true); 
 				
 				if(dlgr.isConfirm()) 
 					newShape = drawRectangle(e,dlgr.getRectWidth(),dlgr.getRectHeight(),dlgr.getRectOuterColor(),dlgr.getRectInnerColor()); 	
@@ -96,7 +96,7 @@ public class DrawingController {
 			case "circle":    
 				DialogCircle dlgc = new DialogCircle(frame,null);    
 				dlgc.setModal(true); 
-				dlgc.show(); 
+				dlgc.setVisible(true); 
 				
 				if(dlgc.isConfirm())
 					newShape = drawCircle(e,dlgc.getR(),dlgc.getOuterColor(),dlgc.getInnerColor());                         
@@ -107,7 +107,7 @@ public class DrawingController {
 			case "donut":     
 				DialogDonut dlgd = new DialogDonut(frame,null);
 				dlgd.setModal(true); 
-				dlgd.show();
+				dlgd.setVisible(true);
 				
 				if(dlgd.isConfirm())
 					newShape = drawDonut(e,dlgd.getR(),dlgd.getR2(),dlgd.getOuterColor(),dlgd.getInnerColor());            
@@ -128,16 +128,18 @@ public class DrawingController {
             return null; 
         }
 
-        DialogLine dlgl = new DialogLine(frame,null);
+        Point endPoint = new Point(e.getX(), e.getY());
+        DialogLine dlgl = new DialogLine(frame, null, point1, endPoint);
         dlgl.setModal(true);
-        dlgl.show();
+        dlgl.setVisible(true);
         
         if(dlgl.isConfirm()) {
-            Line line = new Line(point1, new Point(e.getX(), e.getY()));
+            Line line = new Line(point1, endPoint, dlgl.getOuterColor());
             point1 = null; 
             return line;
         }
         
+        point1 = null;
         return null;
     }
 	
@@ -146,22 +148,10 @@ public class DrawingController {
     //=========================== Draw ================================================
 	public Shape drawPoint(MouseEvent e) {
 		Point p = new Point(e.getX(), e.getY());
+		p.setColor(frame.getGlobalOuterColor());
 		return p;
 	}
 	
-	public Shape drawLine(MouseEvent e,Color outer) {
-
-	    if (point1 == null) {
-	        point1 = new Point(e.getX(), e.getY());
-	        return null; 
-	    }
-
-	    Line l = new Line(point1, new Point(e.getX(), e.getY()),outer);
-	    point1 = null;
-
-	    return l;
-	}
-
 	public Shape drawRectangle(MouseEvent e,int width, int height, Color outer, Color inner) {
 		Rectangle r = new Rectangle(new Point(e.getX(),e.getY()),width,height,outer,inner);
 		return r;
@@ -227,13 +217,13 @@ public class DrawingController {
 	//============================== Modify =======================================
 	public void modifyShape() {
 	    System.out.print("Called MODIFYSHAPE() with shapeType: " + selectedShapeObject);
-	    if (selectedShapeType != null) {
+	    if (selectedShapeObject != null) {
 	        
 	        // --------------------------------- Modify Point --------------------------------------------------
 	        if (selectedShapeObject instanceof Point) {
 	            DialogPoint dlg = new DialogPoint((Point) selectedShapeObject);
 	            System.out.println("DialogShow (selectedShape != null) && Instanceof Point == true");
-	            dlg.show();
+	            dlg.setVisible(true);
 
 	            if (dlg.isConfirm()) {
 	                    Point point = (Point) selectedShapeObject;
@@ -254,7 +244,7 @@ public class DrawingController {
 	        } else if (selectedShapeObject instanceof Circle && !(selectedShapeObject instanceof Donut)) {
 	            DialogCircle dlg = new DialogCircle(frame, (Circle) selectedShapeObject);
 	            System.out.println("\nCall CircleDialog Modify!");
-	            dlg.show();
+	            dlg.setVisible(true);
 
 	            if (dlg.isConfirm()) {
 	                    Circle circle = (Circle) selectedShapeObject;
@@ -279,7 +269,7 @@ public class DrawingController {
 	        } else if (selectedShapeObject instanceof Donut) {
 	            DialogDonut dlg = new DialogDonut(frame, (Donut) selectedShapeObject);
 	            System.out.println("Call DonutDialog Modify!");
-	            dlg.show();
+	            dlg.setVisible(true);
 
 	            if (dlg.isConfirm()) {
 	                    int x = dlg.getX();
@@ -306,7 +296,7 @@ public class DrawingController {
 	        } else if (selectedShapeObject instanceof Rectangle) {
 	            DialogRectangle dlg = new DialogRectangle(frame, (Rectangle) selectedShapeObject);
 	            System.out.println("Call RectangleDialog Modify!");
-	            dlg.show();
+	            dlg.setVisible(true);
 
 	            if (dlg.isConfirm()) {
 	                    int x = dlg.getRectX();
@@ -333,7 +323,7 @@ public class DrawingController {
 	        } else if (selectedShapeObject instanceof Line) {
 	            DialogLine dlg = new DialogLine(frame, (Line) selectedShapeObject);
 	            System.out.println("Call LineDialog Modify!");
-	            dlg.show();
+	            dlg.setVisible(true);
 
 	            if (dlg.isConfirm()) {
 	                int x1 = dlg.getX1();

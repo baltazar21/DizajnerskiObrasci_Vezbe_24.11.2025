@@ -6,8 +6,6 @@ import java.awt.Graphics;
 public class Line extends Shape{
 	private Point startPoint;
 	private Point endPoint;
-	private Color OuterColor;
-	private boolean selected;
 	
 	
 	//-------------------- Konstruktori -----------------------------
@@ -70,7 +68,7 @@ public class Line extends Shape{
 	public boolean equals(Object obj) {
 		if(obj instanceof Line) {
 			Line pomocna = (Line) obj;
-			if(this.startPoint == pomocna.startPoint && this.endPoint == pomocna.endPoint && this.selected==pomocna.selected)
+			if(this.startPoint.equals(pomocna.startPoint) && this.endPoint.equals(pomocna.endPoint) && this.selected==pomocna.selected)
 				return true;
 			else
 				return false;

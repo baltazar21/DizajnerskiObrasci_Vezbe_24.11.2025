@@ -12,7 +12,6 @@ public class Application {
 		frame.setController(contoller);
 		
 
-		frame.setSize(600,400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		

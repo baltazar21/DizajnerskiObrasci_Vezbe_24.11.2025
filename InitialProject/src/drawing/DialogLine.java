@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import geometry.Line;
-import mvc.DrawingController;
+import geometry.Point;
 import mvc.DrawingFrame;
 
 import java.awt.GridBagLayout;
@@ -42,7 +42,7 @@ public class DialogLine extends JDialog {
 	
 	private boolean confirm;
 
-	private Color outerColor;
+	private Color outerColor = Color.BLACK;
 	private JTextField x1Txt;
 	private JTextField y1Txt;
 	private JTextField x2Txt;
@@ -53,7 +53,11 @@ public class DialogLine extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogLine(DrawingFrame frame,Line selectedShape) {
+	public DialogLine(DrawingFrame frame, Line selectedShape) {
+		this(frame, selectedShape, null, null);
+	}
+
+	public DialogLine(DrawingFrame frame, Line selectedShape, Point firstPoint, Point secondPoint) {
 		setBounds(100, 100, 450, 300);
 		setModal(true);
 		this.pnldrawing = frame;
@@ -207,11 +211,19 @@ public class DialogLine extends JDialog {
 		
 		if(selectedShape == null) {
 			setTitle("Line - Draw");
-			x1Txt.setVisible(false);
-			x2Txt.setVisible(false);
+			if (firstPoint != null) {
+				x1Txt.setText(Integer.toString(firstPoint.getX()));
+				y1Txt.setText(Integer.toString(firstPoint.getY()));
+			}
+			if (secondPoint != null) {
+				x2Txt.setText(Integer.toString(secondPoint.getX()));
+				y2Txt.setText(Integer.toString(secondPoint.getY()));
+			}
+			x1Txt.setEnabled(false);
+			x2Txt.setEnabled(false);
 			
-			y1Txt.setVisible(false);
-			y2Txt.setVisible(false);
+			y1Txt.setEnabled(false);
+			y2Txt.setEnabled(false);
 		}else {
 			setTitle("Line - Modify");
 			outerColor = selectedShape.getColor();
@@ -222,11 +234,11 @@ public class DialogLine extends JDialog {
 			y2Txt.setText(Integer.toString(selectedShape.getEndPoint().getY()));
 			colorButton.setBackground(outerColor);
 			
-			x1Txt.setVisible(true);
-			x2Txt.setVisible(true);
+			x1Txt.setEnabled(true);
+			x2Txt.setEnabled(true);
 			
-			y1Txt.setVisible(true);
-			y2Txt.setVisible(true); 
+			y1Txt.setEnabled(true);
+			y2Txt.setEnabled(true); 
 		}
 
 			

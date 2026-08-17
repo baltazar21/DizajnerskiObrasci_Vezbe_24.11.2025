@@ -200,15 +200,18 @@ public class DialogDonut extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						  try {
-							  if(r>r2) {JOptionPane.showMessageDialog(null, "Outer radius cannot be smaller than the inner one.", "Warning", JOptionPane.WARNING_MESSAGE);return;}
-						        r = Integer.parseInt(innerTxt.getText());
-						        r2 = Integer.parseInt(outerTxt.getText());
-						        if (selectedShape != null) 
-						        {
-						        	X = Integer.parseInt(xText.getText()); 
-						        	Y = Integer.parseInt(yText.getText()); 
-						        }
+try {
+					        r = Integer.parseInt(innerTxt.getText());
+					        r2 = Integer.parseInt(outerTxt.getText());
+					        if(r > r2) {
+					        	JOptionPane.showMessageDialog(null, "Outer radius cannot be smaller than the inner one.", "Warning", JOptionPane.WARNING_MESSAGE);
+					        	return;
+					        }
+					        if (selectedShape != null) 
+					        {
+					        	X = Integer.parseInt(xText.getText()); 
+					        	Y = Integer.parseInt(yText.getText()); 
+					        }
 						        
 						        if (useGlobalInnerChk.isSelected())
 						        	innerColor = frame.getGlobalInnerColor();

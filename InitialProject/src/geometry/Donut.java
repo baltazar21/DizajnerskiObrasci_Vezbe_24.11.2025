@@ -41,7 +41,8 @@ public class Donut extends Circle {
         return d <= getRadius() && d >= innerRadius;
     }
 
-    public void draw(Graphics g) {
+    @Override
+    public void Draw(Graphics g) {
         super.Draw(g);
         g.drawOval(getCenter().getX() - innerRadius, getCenter().getY() - innerRadius, innerRadius * 2, innerRadius * 2);
 

@@ -2,8 +2,6 @@ package geometry;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Iterator;
 public class Circle extends Shape {
 	private Point center;
 	private int radius;

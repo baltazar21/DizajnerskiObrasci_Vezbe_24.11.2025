@@ -19,13 +19,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
-import drawing.DialogCircle;
-import drawing.DialogDonut;
-import drawing.DialogRectangle;
-import geometry.Circle;
-import geometry.Donut;
-import geometry.Rectangle;
-
 public class DrawingFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -139,22 +132,6 @@ public class DrawingFrame extends JFrame {
 		
 		
 		
-		//============ MODIFY BUTTON =========================
-		JToggleButton ModifyToggleButton = new JToggleButton("Modify");
-		ModesPanel.add(ModifyToggleButton);
-		ModifyToggleButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				controller.setCurrentMode("modify");
-				controller.modifyShape();
-			}
-		});
-		buttonGroup.add(ModifyToggleButton);
-		ModifyToggleButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		//============================================
-
-
-		
 		//================= SELECT BUTTON  ==========
 		JToggleButton SelectToggleButton = new JToggleButton("Select");
 		ModesPanel.add(SelectToggleButton);
@@ -169,6 +146,30 @@ public class DrawingFrame extends JFrame {
 		//=============================================
 		
 		
+		
+		//============ MODIFY BUTTON =========================
+		JToggleButton ModifyToggleButton = new JToggleButton("Modify");
+		ModesPanel.add(ModifyToggleButton);
+		ModifyToggleButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				String previousMode = controller.getCurrentMode();
+				controller.setCurrentMode("modify");
+				controller.modifyShape();
+				controller.setCurrentMode(previousMode);
+				ModifyToggleButton.setSelected(false);
+				if ("select".equals(previousMode)) {
+					SelectToggleButton.setSelected(true);
+				} else {
+					DrawToggleButton.setSelected(true);
+				}
+			}
+		});
+		buttonGroup.add(ModifyToggleButton);
+		ModifyToggleButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		//============================================
+
+
 		
 		//==================== DELETE BUTTON =================
 		JButton deleteButton = new JButton("Delete");
