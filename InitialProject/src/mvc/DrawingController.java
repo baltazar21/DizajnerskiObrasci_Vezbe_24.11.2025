@@ -7,11 +7,13 @@ import javax.swing.JOptionPane;
 
 import drawing.DialogCircle;
 import drawing.DialogDonut;
+import drawing.DialogHexagon;
 import drawing.DialogLine;
 import drawing.DialogPoint;
 import drawing.DialogRectangle;
 import geometry.Circle;
 import geometry.Donut;
+import geometry.HexagonAdapter;
 import geometry.Line;
 import geometry.Point;
 import geometry.Rectangle;
@@ -116,7 +118,12 @@ public class DrawingController {
 				
 				
 			case "hexagon":   
-				newShape = drawHexagon(e,point1); 
+				DialogHexagon dlgx = new DialogHexagon(frame,null);
+				dlgx.setModal(true); 
+				dlgx.setVisible(true);
+				
+				if(dlgx.isConfirm())
+					newShape = drawHexagon(e,dlgx.getR(),dlgx.getOuterColor(),dlgx.getInnerColor()); 
 				break;
 		}
 		return newShape;
@@ -168,9 +175,9 @@ public class DrawingController {
 		
 	}
 	
-	public Shape drawHexagon(MouseEvent e,Point point1) {
-		//DODAJ HEXAGONNN
-		return null;
+	public Shape drawHexagon(MouseEvent e, int r, Color outer, Color inner) {
+		HexagonAdapter hex = new HexagonAdapter(e.getX(), e.getY(), r, outer, inner);
+		return hex;
 	}
 	//==============================================================================
 	
@@ -336,6 +343,29 @@ public class DrawingController {
 	                line.setStartPoint(new Point(x1, y1));
 	                line.setEndPoint(new Point(x2, y2));
 	                line.setColor(color);
+	                selectedShapeObject.setSelected(false);
+	                selectedShapeObject = null;
+	            }
+	            
+	            
+	        // ------------------------------ Modify Hexagon ----------------------------------------------
+	        } else if (selectedShapeObject instanceof HexagonAdapter) {
+	            DialogHexagon dlg = new DialogHexagon(frame, (HexagonAdapter) selectedShapeObject);
+	            System.out.println("Call HexagonDialog Modify!");
+	            dlg.setVisible(true);
+
+	            if (dlg.isConfirm()) {
+	                int x = dlg.getX();
+	                int y = dlg.getY();
+	                int r = dlg.getR();
+	                Color inner = dlg.getInnerColor();
+	                Color outer = dlg.getOuterColor();
+
+	                HexagonAdapter hex = (HexagonAdapter) selectedShapeObject;
+	                hex.moveTo(x, y);
+	                hex.setRadius(r);
+	                hex.setColor(outer);
+	                hex.setInnerColor(inner);
 	                selectedShapeObject.setSelected(false);
 	                selectedShapeObject = null;
 	            }

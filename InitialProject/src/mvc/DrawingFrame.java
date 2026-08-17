@@ -287,6 +287,20 @@ public class DrawingFrame extends JFrame {
 		
 		
 		
+		//================== HEXAGON BUTTON ================
+		JToggleButton HexagonButton = new JToggleButton("Hexagon");
+		HexagonButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.setSelectedShapeType("Hexagon");
+				InnerColorButton.setVisible(true);
+			}
+		});
+		buttonGroup_1.add(HexagonButton);
+		HexagonButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		ObjectsPanel.add(HexagonButton);
+		//==================================================
+		
 	}
 	
 	public void setController(DrawingController controller) {
