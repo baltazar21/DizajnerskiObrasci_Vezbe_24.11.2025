@@ -75,6 +75,7 @@ public class DrawingController {
 			        undoStack.push(cmd);
 			        redoStack.clear();
 			        updateButtons();
+			        frame.addToLog(cmd.toString());
 			        frame.repaint();
 			}
 		}
@@ -210,17 +211,21 @@ public class DrawingController {
 			if (selectedShapeObject == shapeToSelect) {
 				shapeToSelect.setSelected(false);
 				selectedShapeObject = null;
+				frame.addToLog("Deselect: " + shapeToSelect);
 			} else {
 				if (selectedShapeObject != null) {
 					selectedShapeObject.setSelected(false);
+					frame.addToLog("Deselect: " + selectedShapeObject);
 				}
 				shapeToSelect.setSelected(true);
 				System.out.println("shapeToSelect.setSelected(true)");
 				selectedShapeObject = shapeToSelect;
+				frame.addToLog("Select: " + shapeToSelect);
 			}
 		} else {
 			if (selectedShapeObject != null) {
 				selectedShapeObject.setSelected(false);
+				frame.addToLog("Deselect: " + selectedShapeObject);
 				selectedShapeObject = null;
 			}
 		}
@@ -404,6 +409,7 @@ public class DrawingController {
 		selectedShapeObject = cmd.getCurrent();
 		selectedShapeObject.setSelected(true);
 		updateButtons();
+		frame.addToLog(cmd.toString());
 	}
 
 	//==================================================================================================================
@@ -421,6 +427,7 @@ public class DrawingController {
 				redoStack.clear();
 				selectedShapeObject = null;
 				updateButtons();
+				frame.addToLog(cmd.toString());
 				frame.repaint();
 			}
 		} else {
@@ -435,6 +442,7 @@ public class DrawingController {
 			cmd.unexecute();
 			redoStack.push(cmd);
 			updateButtons();
+			frame.addToLog("Undo: " + cmd);
 			frame.repaint();
 		}
 	}
@@ -445,6 +453,7 @@ public class DrawingController {
 			cmd.execute();
 			undoStack.push(cmd);
 			updateButtons();
+			frame.addToLog("Redo: " + cmd);
 			frame.repaint();
 		}
 	}

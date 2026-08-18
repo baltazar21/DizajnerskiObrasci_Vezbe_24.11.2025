@@ -143,7 +143,9 @@ public class Rectangle extends Shape {
 	}
 	
 	public String toString() {
-		return "Upper left point: " + upperLeftPoint + ", width = " + width + ", height = " + height;
+		return "Rectangle (upperLeft=(" + upperLeftPoint.getX() + "," + upperLeftPoint.getY()
+				+ "), width=" + width + ", height=" + height + ", color=" + color
+				+ ", innerColor=" + innerColor + ")";
 	}
 
 	@Override

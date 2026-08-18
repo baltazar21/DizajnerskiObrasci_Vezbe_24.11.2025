@@ -18,6 +18,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import java.awt.Dimension;
 
 public class DrawingFrame extends JFrame {
 
@@ -32,6 +36,8 @@ public class DrawingFrame extends JFrame {
 	public JButton InnerColorButton;
 	private JButton undoButton;
 	private JButton redoButton;
+	private JList<String> logList;
+	private DefaultListModel<String> logModel = new DefaultListModel<String>();
 	
 	
 	private DrawingController controller;
@@ -97,6 +103,26 @@ public class DrawingFrame extends JFrame {
 		});
 		InnerColorButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel.add(InnerColorButton);
+		//==============================================================
+		
+		
+		
+		//==================== LOG PANEL =====================
+		JPanel LogPanel = new JPanel();
+		LogPanel.setPreferredSize(new Dimension(280, 0));
+		LogPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		LogPanel.setLayout(new BorderLayout(0, 0));
+		contentPane.add(LogPanel, BorderLayout.EAST);
+		
+		JLabel LogLabel = new JLabel("Log:");
+		LogLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		LogPanel.add(LogLabel, BorderLayout.NORTH);
+		
+		logList = new JList<String>(logModel);
+		logList.setBorder(new LineBorder(new Color(0, 0, 0)));
+		logList.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		JScrollPane logScrollPane = new JScrollPane(logList);
+		LogPanel.add(logScrollPane, BorderLayout.CENTER);
 		//==============================================================
 		
 		
@@ -375,6 +401,15 @@ public class DrawingFrame extends JFrame {
 
 	public void setRedoEnabled(boolean enabled) {
 		redoButton.setEnabled(enabled);
+	}
+
+	public DefaultListModel<String> getLogModel() {
+		return logModel;
+	}
+
+	public void addToLog(String line) {
+		logModel.addElement(line);
+		logList.ensureIndexIsVisible(logModel.getSize() - 1);
 	}
 
 }

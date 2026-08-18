@@ -108,7 +108,11 @@ public class Donut extends Circle {
 
     public int getInnerRadius() { return innerRadius; }
     public void setInnerRadius(int innerRadius) { this.innerRadius = innerRadius; }
-    public String toString() { return super.toString() + ", innerRadius=" + innerRadius; }
+    public String toString() {
+        return "Donut (center=(" + getCenter().getX() + "," + getCenter().getY() + "), radius="
+                + getRadius() + ", innerRadius=" + innerRadius + ", color=" + color
+                + ", innerColor=" + innerColor + ")";
+    }
 
     @Override
     public Shape clone() {

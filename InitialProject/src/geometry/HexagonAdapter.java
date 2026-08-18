@@ -76,7 +76,8 @@ public class HexagonAdapter extends Shape {
 
 	@Override
 	public String toString() {
-		return "Hexagon: x = " + hexagon.getX() + ", y = " + hexagon.getY() + ", r = " + hexagon.getR();
+		return "Hexagon (x=" + hexagon.getX() + ", y=" + hexagon.getY() + ", r=" + hexagon.getR()
+				+ ", color=" + getColor() + ", innerColor=" + getInnerColor() + ")";
 	}
 
 	@Override

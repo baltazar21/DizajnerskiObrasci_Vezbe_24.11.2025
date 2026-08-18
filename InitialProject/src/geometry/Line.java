@@ -103,7 +103,8 @@ public class Line extends Shape{
 	}
 
 	public String toString() {
-		return startPoint.toString()+"-->"+endPoint;
+		return "Line (start=(" + startPoint.getX() + "," + startPoint.getY() + "), end=("
+				+ endPoint.getX() + "," + endPoint.getY() + "), color=" + color + ")";
 	}
 
 	@Override
