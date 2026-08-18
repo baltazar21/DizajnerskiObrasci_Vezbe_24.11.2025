@@ -30,6 +30,8 @@ public class DrawingFrame extends JFrame {
 	//UIElements
 	public JButton OuterColorButton;
 	public JButton InnerColorButton;
+	private JButton undoButton;
+	private JButton redoButton;
 	
 	
 	private DrawingController controller;
@@ -182,6 +184,33 @@ public class DrawingFrame extends JFrame {
 			}
 		});
 		ModesPanel.add(deleteButton);
+		//====================================================
+		
+		
+		//==================== UNDO BUTTON =================
+		undoButton = new JButton("Undo");
+		undoButton.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		undoButton.setEnabled(false);
+		undoButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.undo();
+			}
+		});
+		ModesPanel.add(undoButton);
+		//====================================================
+		
+		//==================== REDO BUTTON =================
+		redoButton = new JButton("Redo");
+		redoButton.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		redoButton.setEnabled(false);
+		redoButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.redo();
+			}
+		});
+		ModesPanel.add(redoButton);
 		//====================================================
 		
 		
@@ -338,6 +367,14 @@ public class DrawingFrame extends JFrame {
 
 	public void setGlobalInnerColor(Color globalInnerColor) {
 		this.globalInnerColor = globalInnerColor;
+	}
+
+	public void setUndoEnabled(boolean enabled) {
+		undoButton.setEnabled(enabled);
+	}
+
+	public void setRedoEnabled(boolean enabled) {
+		redoButton.setEnabled(enabled);
 	}
 
 }

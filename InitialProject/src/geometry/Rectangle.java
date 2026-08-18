@@ -146,6 +146,11 @@ public class Rectangle extends Shape {
 		return "Upper left point: " + upperLeftPoint + ", width = " + width + ", height = " + height;
 	}
 
+	@Override
+	public Shape clone() {
+		return new Rectangle((Point) upperLeftPoint.clone(), width, height, selected, color, innerColor);
+	}
+
 
 	
 }

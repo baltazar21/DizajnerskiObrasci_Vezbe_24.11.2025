@@ -109,6 +109,13 @@ public class Point extends Shape{
 	}
 
 	@Override
+	public Shape clone() {
+		Point p = new Point(x, y, selected);
+		p.setColor(color);
+		return p;
+	}
+
+	@Override
 	public boolean contains(int x, int y) {
 		// TODO Auto-generated method stub
 		Point containsPoint = new Point(x, y);

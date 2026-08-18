@@ -49,6 +49,8 @@ public abstract class Shape implements Moveable, Comparable {
 
 	public abstract void Draw(Graphics g);
 
+	public abstract Shape clone();
+
 	public void fill(Graphics g) {
 		// TODO Auto-generated method stub
 

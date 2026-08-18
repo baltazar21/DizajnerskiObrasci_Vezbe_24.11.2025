@@ -2,9 +2,14 @@ package mvc;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
+import command.AddShapeCommand;
+import command.Command;
+import command.RemoveShapeCommand;
+import command.UpdateShapeCommand;
 import drawing.DialogCircle;
 import drawing.DialogDonut;
 import drawing.DialogHexagon;
@@ -24,10 +29,11 @@ public class DrawingController {
 	private DrawingFrame frame;
 
 	
-	
 	private String selectedShapeType = "point";
 	private String currentMode = "draw";
 	private Shape selectedShapeObject;
+	private Stack<Command> undoStack = new Stack<Command>();
+	private Stack<Command> redoStack = new Stack<Command>();
 
 
 	Point point1;
@@ -64,7 +70,11 @@ public class DrawingController {
 			}
 			
 			  if (newShape != null) {
-			        model.addShape(newShape);
+			        AddShapeCommand cmd = new AddShapeCommand(model, newShape);
+			        cmd.execute();
+			        undoStack.push(cmd);
+			        redoStack.clear();
+			        updateButtons();
 			        frame.repaint();
 			}
 		}
@@ -228,6 +238,7 @@ public class DrawingController {
 	        
 	        // --------------------------------- Modify Point --------------------------------------------------
 	        if (selectedShapeObject instanceof Point) {
+	        	Shape before = selectedShapeObject.clone();
 	            DialogPoint dlg = new DialogPoint((Point) selectedShapeObject);
 	            System.out.println("DialogShow (selectedShape != null) && Instanceof Point == true");
 	            dlg.setVisible(true);
@@ -240,15 +251,17 @@ public class DrawingController {
 	                    point.setX(X);
 	                    point.setY(Y);
 	                    point.setColor(dlg.getColor());
-	                    selectedShapeObject.setSelected(false);
-	                    selectedShapeObject = null;
-	                    System.out.println("Modified: newX" + point.getX() + " newY:" + point.getY() + " newColor:" + point.getColor());}
+	                    Shape after = selectedShapeObject.clone();
+	                    updateShape(before, after);
+	                    System.out.println("Modified: newX" + point.getX() + " newY:" + point.getY() + " newColor:" + point.getColor());
+	            }
 	      //-------------------------------------------------------------------------------------------------------      
 	            
 	            
 	            
 	        // ------------------------------------ Modify Circle ------------------------------------------------
 	        } else if (selectedShapeObject instanceof Circle && !(selectedShapeObject instanceof Donut)) {
+	        	Shape before = selectedShapeObject.clone();
 	            DialogCircle dlg = new DialogCircle(frame, (Circle) selectedShapeObject);
 	            System.out.println("\nCall CircleDialog Modify!");
 	            dlg.setVisible(true);
@@ -265,8 +278,8 @@ public class DrawingController {
 	                    circle.setColor(outer);
 	                    circle.setInnerColor(inner);
 	                    circle.setRadius(r);
-	                    selectedShapeObject.setSelected(false);
-	                    selectedShapeObject = null;
+	                    Shape after = selectedShapeObject.clone();
+	                    updateShape(before, after);
 	            }
 	            //-------------------------------------------------------------------------------------------------------
 	        
@@ -274,6 +287,7 @@ public class DrawingController {
 	            
 	            // -------------------------------- Modify Donut --------------------------------------------------------
 	        } else if (selectedShapeObject instanceof Donut) {
+	        	Shape before = selectedShapeObject.clone();
 	            DialogDonut dlg = new DialogDonut(frame, (Donut) selectedShapeObject);
 	            System.out.println("Call DonutDialog Modify!");
 	            dlg.setVisible(true);
@@ -292,8 +306,8 @@ public class DrawingController {
 	                    donut.setInnerRadius(r);
 	                    donut.setColor(outer);
 	                    donut.setInnerColor(inner);
-	                    selectedShapeObject.setSelected(false);
-	                    selectedShapeObject = null;
+	                    Shape after = selectedShapeObject.clone();
+	                    updateShape(before, after);
 	            }
 	            //----------------------------------------------------------------------------------------------
 	            
@@ -301,6 +315,7 @@ public class DrawingController {
 	            
 	        //---------------------------------- Modify Rectangle -----------------------------------
 	        } else if (selectedShapeObject instanceof Rectangle) {
+	        	Shape before = selectedShapeObject.clone();
 	            DialogRectangle dlg = new DialogRectangle(frame, (Rectangle) selectedShapeObject);
 	            System.out.println("Call RectangleDialog Modify!");
 	            dlg.setVisible(true);
@@ -319,8 +334,8 @@ public class DrawingController {
 	                    rect.setHeight(height);
 	                    rect.setColor(outer);
 	                    rect.setInnerColor(inner);
-	                    selectedShapeObject.setSelected(false);
-	                    selectedShapeObject = null;
+	                    Shape after = selectedShapeObject.clone();
+	                    updateShape(before, after);
 	            }
 	            //-------------------------------------------------------------------------------------------------------
 	            
@@ -328,6 +343,7 @@ public class DrawingController {
 	            
 	        // ------------------------------ Modify Line ----------------------------------------------
 	        } else if (selectedShapeObject instanceof Line) {
+	        	Shape before = selectedShapeObject.clone();
 	            DialogLine dlg = new DialogLine(frame, (Line) selectedShapeObject);
 	            System.out.println("Call LineDialog Modify!");
 	            dlg.setVisible(true);
@@ -343,13 +359,14 @@ public class DrawingController {
 	                line.setStartPoint(new Point(x1, y1));
 	                line.setEndPoint(new Point(x2, y2));
 	                line.setColor(color);
-	                selectedShapeObject.setSelected(false);
-	                selectedShapeObject = null;
+	                Shape after = selectedShapeObject.clone();
+	                updateShape(before, after);
 	            }
 	            
 	            
 	        // ------------------------------ Modify Hexagon ----------------------------------------------
 	        } else if (selectedShapeObject instanceof HexagonAdapter) {
+	        	Shape before = selectedShapeObject.clone();
 	            DialogHexagon dlg = new DialogHexagon(frame, (HexagonAdapter) selectedShapeObject);
 	            System.out.println("Call HexagonDialog Modify!");
 	            dlg.setVisible(true);
@@ -366,8 +383,8 @@ public class DrawingController {
 	                hex.setRadius(r);
 	                hex.setColor(outer);
 	                hex.setInnerColor(inner);
-	                selectedShapeObject.setSelected(false);
-	                selectedShapeObject = null;
+	                Shape after = selectedShapeObject.clone();
+	                updateShape(before, after);
 	            }
 	        }
 	      //---------------------------------------------------------------------------------------------------------------
@@ -378,7 +395,17 @@ public class DrawingController {
 					JOptionPane.WARNING_MESSAGE);
 	    }
 	}
-	
+
+	private void updateShape(Shape before, Shape after) {
+		UpdateShapeCommand cmd = new UpdateShapeCommand(model, selectedShapeObject, before, after);
+		cmd.execute();
+		undoStack.push(cmd);
+		redoStack.clear();
+		selectedShapeObject = cmd.getCurrent();
+		selectedShapeObject.setSelected(true);
+		updateButtons();
+	}
+
 	//==================================================================================================================
 	
 	
@@ -387,14 +414,44 @@ public class DrawingController {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected shape?",
 					"Delete", JOptionPane.YES_NO_OPTION);
 			if (response == JOptionPane.YES_OPTION) {
-				model.removeShape(selectedShapeObject);
+				int index = model.getShapes().indexOf(selectedShapeObject);
+				RemoveShapeCommand cmd = new RemoveShapeCommand(model, selectedShapeObject, index);
+				cmd.execute();
+				undoStack.push(cmd);
+				redoStack.clear();
 				selectedShapeObject = null;
+				updateButtons();
 				frame.repaint();
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "No shape selected.", "Warning!",
 					JOptionPane.WARNING_MESSAGE);
 		}
+	}
+
+	public void undo() {
+		if (!undoStack.isEmpty()) {
+			Command cmd = undoStack.pop();
+			cmd.unexecute();
+			redoStack.push(cmd);
+			updateButtons();
+			frame.repaint();
+		}
+	}
+
+	public void redo() {
+		if (!redoStack.isEmpty()) {
+			Command cmd = redoStack.pop();
+			cmd.execute();
+			undoStack.push(cmd);
+			updateButtons();
+			frame.repaint();
+		}
+	}
+
+	public void updateButtons() {
+		frame.setUndoEnabled(!undoStack.isEmpty());
+		frame.setRedoEnabled(!redoStack.isEmpty());
 	}
 	
 	

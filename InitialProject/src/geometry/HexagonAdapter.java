@@ -127,4 +127,11 @@ public class HexagonAdapter extends Shape {
 		hexagon.setR(r);
 	}
 
+	@Override
+	public Shape clone() {
+		HexagonAdapter h = new HexagonAdapter(hexagon.getX(), hexagon.getY(), hexagon.getR(), getColor(), getInnerColor());
+		h.setSelected(hexagon.isSelected());
+		return h;
+	}
+
 }

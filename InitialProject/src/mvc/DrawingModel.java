@@ -10,6 +10,15 @@ public class DrawingModel {
 	public void addShape(Shape s) {
 		shapes.add(s);
 	}
+
+	public void addShape(int index, Shape s) {
+		shapes.add(index, s);
+	}
+
+	public void replaceShape(Shape oldShape, Shape newShape) {
+		int index = shapes.indexOf(oldShape);
+		shapes.set(index, newShape);
+	}
 	
 	public void removeShape(Shape s) {
 		shapes.remove(s);

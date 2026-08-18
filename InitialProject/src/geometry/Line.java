@@ -106,6 +106,12 @@ public class Line extends Shape{
 		return startPoint.toString()+"-->"+endPoint;
 	}
 
+	@Override
+	public Shape clone() {
+		Line line = new Line((Point) startPoint.clone(), (Point) endPoint.clone(), selected, color);
+		return line;
+	}
+
 	public void Draw(Graphics g) {
 		g.setColor(color);
 		g.drawLine(startPoint.getX(), startPoint.getY(),
