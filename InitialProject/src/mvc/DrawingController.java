@@ -7,8 +7,12 @@ import java.util.Stack;
 import javax.swing.JOptionPane;
 
 import command.AddShapeCommand;
+import command.BringToBackCmd;
+import command.BringToFrontCmd;
 import command.Command;
 import command.RemoveShapeCommand;
+import command.ToBackCmd;
+import command.ToFrontCmd;
 import command.UpdateShapeCommand;
 import drawing.DialogCircle;
 import drawing.DialogDonut;
@@ -462,6 +466,77 @@ public class DrawingController {
 		frame.setUndoEnabled(!undoStack.isEmpty());
 		frame.setRedoEnabled(!redoStack.isEmpty());
 	}
+
+	//============================== Z Order =======================================
+	public void toFront() {
+		if (selectedShapeObject == null) {
+			JOptionPane.showMessageDialog(null, "No shape selected.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		int index = model.getShapes().indexOf(selectedShapeObject);
+		if (index < model.getShapes().size() - 1) {
+			executeZOrderCommand(new ToFrontCmd(model, selectedShapeObject));
+		} else {
+			JOptionPane.showMessageDialog(null, "The selected shape is already at the front.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	public void toBack() {
+		if (selectedShapeObject == null) {
+			JOptionPane.showMessageDialog(null, "No shape selected.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		int index = model.getShapes().indexOf(selectedShapeObject);
+		if (index > 0) {
+			executeZOrderCommand(new ToBackCmd(model, selectedShapeObject));
+		} else {
+			JOptionPane.showMessageDialog(null, "The selected shape is already at the back.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	public void bringToFront() {
+		if (selectedShapeObject == null) {
+			JOptionPane.showMessageDialog(null, "No shape selected.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		int index = model.getShapes().indexOf(selectedShapeObject);
+		if (index < model.getShapes().size() - 1) {
+			executeZOrderCommand(new BringToFrontCmd(model, selectedShapeObject));
+		} else {
+			JOptionPane.showMessageDialog(null, "The selected shape is already at the front.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	public void bringToBack() {
+		if (selectedShapeObject == null) {
+			JOptionPane.showMessageDialog(null, "No shape selected.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		int index = model.getShapes().indexOf(selectedShapeObject);
+		if (index > 0) {
+			executeZOrderCommand(new BringToBackCmd(model, selectedShapeObject));
+		} else {
+			JOptionPane.showMessageDialog(null, "The selected shape is already at the back.", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	private void executeZOrderCommand(Command cmd) {
+		cmd.execute();
+		undoStack.push(cmd);
+		redoStack.clear();
+		updateButtons();
+		frame.addToLog(cmd.toString());
+		frame.repaint();
+	}
+	//=========================================================================================
 	
 	
 	public String getSelectedShapeType() {

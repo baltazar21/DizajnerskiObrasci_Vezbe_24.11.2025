@@ -107,6 +107,54 @@ public class DrawingFrame extends JFrame {
 		
 		
 		
+		//==================== Z ORDER BUTTONS =====================
+		JLabel ZOrderLabel = new JLabel("Z Order:");
+		ZOrderLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(ZOrderLabel);
+		
+		JButton bringToFrontButton = new JButton("Bring To Front");
+		bringToFrontButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		bringToFrontButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.bringToFront();
+			}
+		});
+		panel.add(bringToFrontButton);
+		
+		JButton toFrontButton = new JButton("To Front");
+		toFrontButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		toFrontButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.toFront();
+			}
+		});
+		panel.add(toFrontButton);
+		
+		JButton toBackButton = new JButton("To Back");
+		toBackButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		toBackButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.toBack();
+			}
+		});
+		panel.add(toBackButton);
+		
+		JButton bringToBackButton = new JButton("Bring To Back");
+		bringToBackButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		bringToBackButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				controller.bringToBack();
+			}
+		});
+		panel.add(bringToBackButton);
+		//==============================================================
+		
+		
+		
 		//==================== LOG PANEL =====================
 		JPanel LogPanel = new JPanel();
 		LogPanel.setPreferredSize(new Dimension(280, 0));
